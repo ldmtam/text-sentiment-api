@@ -16,7 +16,7 @@ def pad_sentences(sentence):
 x, y, vocal, vocal_inv = load_data()
 
 # load model
-model = load_model('weights.058-0.7629.hdf5')
+model = load_model('weights.051-0.7638.hdf5')
 
 
 from flask import Flask
@@ -33,7 +33,7 @@ def api_call():
     pred_arr = []
     for s in sentences:
         padded_sentence = pad_sentences(s)
-        x = np.array([[vocal[word] for word in padded_sentence]])
+        x = np.array([[vocal.get(word, "0") for word in padded_sentence]])
         result = model.predict(x, batch_size=1)
         if (result[0, 0] > result[0, 1]):
             pred_arr.insert(len(pred_arr), 'NEGATIVE')
